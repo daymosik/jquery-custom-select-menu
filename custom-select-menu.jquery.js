@@ -19,6 +19,10 @@
           customOptionText = selection.text(), /* Get the option text (for the label) */
           hiddenInput = $('input[name="' + customMenuName + '"]'); /* Get the hidden input */
 
+      if (selection.hasClass('disabled')) {
+        return false;
+      }
+
       // Remove 'selected' class from currently selected option
       selection.parent().find( '.' + settings.selectedClass ).removeClass( settings.selectedClass );
 
@@ -122,6 +126,7 @@
       $this.find( 'option' ).each(function(){
         var optionName = $(this).text(),
             optionValue = $(this).attr( 'value' ),
+            disabled = $(this).attr( 'disabled' ),
             markSelected = (optionName === labelText) ? ' class="' + settings.selectedClass + '"' : '';
 
         // Make sure we have a value before setting one on the newOption
@@ -129,6 +134,9 @@
           newOption = $( '<li' + markSelected + '>' + optionName + '</li>' );
         } else {
           newOption = $( '<li data-option-value="' + optionValue + '"' + markSelected + '>' + optionName + '</li>' );
+        }
+        if (disabled === 'disabled') {
+          newOption.addClass('disabled');
         }
 
         newList.append( newOption );
